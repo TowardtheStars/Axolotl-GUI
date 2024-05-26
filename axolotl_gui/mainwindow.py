@@ -31,7 +31,15 @@ class MainWindow(Ui_mainwindow, QMainWindow):
 
         self.initUI()
         self.move(0, 0)
-
+        
+        try:
+            if os.path.isfile(manager.cfg.get('stylesheet')):
+                with open(manager.cfg.get('stylesheet'), 'r', encoding='utf8') as file:
+                    self.setStyleSheet(file.read())
+        except Exception as e:
+            logger.error(e, exc_info=True)
+            
+            QMessageBox.warning(self, "警告", "样式表错误", buttons=QMessageBox.StandardButton.Ok, defaultButton=QMessageBox.StandardButton.Ok)
         
         
 
