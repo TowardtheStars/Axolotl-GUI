@@ -34,7 +34,7 @@ class MainWindow(Ui_mainwindow, QMainWindow):
         self.move(0, 0)
         
         try:
-            stylesheet_path = os.path.join(Config.CFG_ROOT, 'stylesheet.qss')
+            stylesheet_path = os.path.join(os.getcwd(), 'config', 'stylesheet.qss')
             if os.path.exists(self.styleSheet()):
                 if os.path.isfile(stylesheet_path):
                     with open(stylesheet_path, 'r', encoding='utf8') as file:
