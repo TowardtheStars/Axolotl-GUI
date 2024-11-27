@@ -9,6 +9,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 
+import axolotl
 from axolotl.automation.task import getTaskManager
 from axolotl.instrument import InstrumentManager
 from axolotl.util import *
@@ -33,9 +34,14 @@ class MainWindow(Ui_mainwindow, QMainWindow):
         self.move(0, 0)
         
         try:
-            if os.path.isfile(manager.cfg.get('stylesheet')):
-                with open(manager.cfg.get('stylesheet'), 'r', encoding='utf8') as file:
-                    self.setStyleSheet(file.read())
+            stylesheet_path = os.path.join(Config.CFG_ROOT, 'stylesheet.qss')
+            if os.path.exists(self.styleSheet()):
+                if os.path.isfile(stylesheet_path):
+                    with open(stylesheet_path, 'r', encoding='utf8') as file:
+                        self.setStyleSheet(file.read())
+            else:
+                with open(stylesheet_path, 'w', encoding='utf8') as file:
+                    file.write(self.styleSheet())
         except Exception as e:
             logger.error(e, exc_info=True)
             
